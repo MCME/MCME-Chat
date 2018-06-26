@@ -46,9 +46,6 @@ public class AfkListener implements Listener{
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
     public void afkStatusChange(AfkStatusChangeEvent event) {
-//Logger.getGlobal().info("value: "+event.getValue());
-//event.getAffected().getBase().sendMessage("value: "+event.getValue());
-//Logger.getGlobal().info("LuckPerms found: "+ChatPlugin.isLuckPerms());
         if(event.getValue()) {
             setAfk(event.getAffected().getBase());
         } else {

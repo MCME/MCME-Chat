@@ -2,7 +2,11 @@ name: ${project.artifactId}
 main: com.mcmiddleearth.mcmechat.ChatPlugin
 version: ${project.version}
 author: Eriol_Eandur
-load: STARTUP
 softdepend: [Tab]
-depend: [Essentials,LuckPerms]
+depend: [Essentials, LuckPerms, PlaceholderAPI]
+
+commands:
+   mcmechat:
+      description: reloads config file
+      usage: /mcmechat reload
 
