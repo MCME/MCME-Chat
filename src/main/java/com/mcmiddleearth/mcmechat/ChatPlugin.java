@@ -18,6 +18,10 @@ package com.mcmiddleearth.mcmechat;
 
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.listener.AfkListener;
+import com.mcmiddleearth.mcmechat.listener.PlayerListener;
+import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
+import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
+import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import java.util.List;
 import java.util.logging.Logger;
 import lombok.Getter;
@@ -26,7 +30,7 @@ import me.lucko.luckperms.LuckPerms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -36,10 +40,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ChatPlugin extends JavaPlugin implements CommandExecutor{
 
     @Getter
-    static JavaPlugin instance;
+    private static JavaPlugin instance;
     
     @Getter
-    static boolean luckPerms = false;
+    private static boolean luckPerms = false;
+    
+    @Getter
+    private static MessageUtil messageUtil = new MessageUtil();
     
     @Override
     public void onEnable() {
@@ -52,20 +59,24 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
                 Logger.getGlobal().info("LuckPerms not found, using permission attachments.");
             }
         }
+        messageUtil.setPluginName("MCME-Chat");
+        instance = this;
+        PlayerHistoryData.loadFromFile();
         getServer().getPluginManager().registerEvents(new AfkListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
+        getCommand("history").setExecutor(new HistoryCommand());
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());
         } else {
             Logger.getGlobal().warning("PlaceholderAPI not enabled");
         }
-        instance = this;
     }
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof ConsoleCommandSender)) {
-            sender.sendMessage("&cAccess denied.");
+        if(sender instanceof Player && !((Player) sender).hasPermission("mcmechat.reload")) {
+            ChatPlugin.getMessageUtil().sendNoPermissionError(sender);
             return true;
         }
         if(args.length<1) {
@@ -73,9 +84,10 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         }
         if(args[0].equalsIgnoreCase("reload")) {
             this.reloadConfig();
+            PlayerHistoryData.loadFromFile();
             sender.sendMessage("Reloading config.");
             return true;
-        }
+        }        
         return false;
     }
     
@@ -110,4 +122,8 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         return result;
     }
 
+    public static List<String> getConfigStringList(String key) {
+        return instance.getConfig().getStringList(key);
+    }
+    
 }

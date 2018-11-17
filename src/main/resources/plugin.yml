@@ -3,10 +3,20 @@ main: com.mcmiddleearth.mcmechat.ChatPlugin
 version: ${project.version}
 author: Eriol_Eandur
 softdepend: [Tab]
-depend: [Essentials, LuckPerms, PlaceholderAPI]
+depend: [Essentials, LuckPerms, PlaceholderAPI, PluginUtils]
+api-version: 1.13
 
 commands:
    mcmechat:
       description: reloads config file
       usage: /mcmechat reload
-
+   history:
+      description: manage history entries of a player
+      usage: /history <playername> add|insert|remove|show
+permissions:
+    mcmechat.reload:
+        description: Allows to use reload config using /mcmechat reload
+        default: op
+    mcmechat.history:
+        description: Allows to use /history command
+        default: op

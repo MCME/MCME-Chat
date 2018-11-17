@@ -17,17 +17,24 @@
 package com.mcmiddleearth.mcmechat.placeholder;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
+import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
+import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.logging.Logger;
+import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderHook;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.Group;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.Node;
 import me.lucko.luckperms.api.User;
+import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
@@ -41,7 +48,12 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
     
     @Override
     public String onPlaceholderRequest(Player p, String identifier) {
+        if(p==null) {
+            return "null player";
+        }
         switch(identifier) {
+            case "name":
+                return p.getName()+(hasHistory(p)?ChatPlugin.getConfigString("historyBadge", ChatColor.DARK_GRAY+"H"):"");
             case "prefix_hover_text": 
                 return getDescription(p, "prefixHover.intro","prefixHover.details","prefixHover.finish" );
             case "prefix_click_text":
@@ -51,7 +63,20 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
             case "name_click_text":
                 return getDescription(p, "nameClick", "none","none");
             case "suffix_hover_text":
-                return getDescription(p, "suffixHover.intro","suffixHover.details","suffixHover.finish" );
+                String result = "";
+                boolean hasBadge = hasBadge(p);
+                boolean hasHistory = hasHistory(p);
+//Logger.getGlobal().info("hasbadge: "+hasBadge+" hasHistory: "+hasHistory);
+                if(hasBadge) {
+                    result = getDescription(p, "suffixHover.intro","suffixHover.details","suffixHover.finish" );
+                }
+                /*if(hasBadge && hasHistory) {
+                    result = result + LF +LF;
+                }
+                if(hasHistory) {
+                    result = result +getHistory(p);
+                }*/
+                return result;
             case "suffix_click_text":
                 return getDescription(p, "suffixClick", "none","none");
             default:
@@ -64,6 +89,9 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
         String result = ChatPlugin.getConfigStringFromList("chatDecorations."+introKey, "");
         Entry<Integer,String> maxSuffix = null;
         Entry<Integer,String> maxPrefix = null;
+        if(p==null) {
+            return "null Player";
+        }
         if(ChatPlugin.isLuckPerms()) {
             LuckPermsApi api = LuckPerms.getApi();
             User user = api.getUser(p.getUniqueId());
@@ -71,6 +99,7 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 return "";
             }
             SortedSet<Node> nodes = (SortedSet<Node>) user.getPermissions();
+            List<ComparableDescription> lines = new ArrayList<>();
             for(Node userNode: nodes) {
                 if(userNode.isGroupNode()) {
                     Group group = api.getGroup(userNode.getGroupName());
@@ -91,23 +120,31 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                         }
                         String description = ChatPlugin.getConfigStringFromList("chatDecorations."+detailKey+"."
                                                                    +userNode.getGroupName(),"");
+                        int sortKey = 0;
                         if(prefix != null) {
                             description = description.replace("{Prefix}", prefix.getValue().trim());
                             if(maxPrefix == null || maxPrefix.getKey() < prefix.getKey()) { 
                                 maxPrefix = prefix;
                             }
+                            sortKey = prefix.getKey();
                         }
                         if(suffix != null) {
                             description = description.replace("{Suffix}", suffix.getValue().trim());
                             if(maxSuffix == null || maxSuffix.getKey() < suffix.getKey()) { 
                                 maxSuffix = suffix;
                             }
+                            sortKey = suffix.getKey();
                         }
                         if(!description.equals("")) {
-                            result = result + LF + description;
+                            lines.add(new ComparableDescription(sortKey,description));
+                            //result = result + LF + description;
                         }
                     }
                 }
+            }
+            lines.sort(null);
+            for(ComparableDescription line: lines) {
+                result = result + LF + line.getDescription();
             }
         }
         String finish = ChatPlugin.getConfigStringFromList("chatDecorations."+finishKey,"");
@@ -129,13 +166,14 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                                new SimpleDateFormat("MMM d, yyyy")
                                        .format(new Date(p.getFirstPlayed())))
                      .replace("{player_time_played}", 
-                              formatTimespan(p.getStatistic(Statistic.PLAY_ONE_TICK)*50l))
+                              formatTimespan(p.getStatistic(Statistic.PLAY_ONE_MINUTE)*50l)) //50long
                      .replace("{player_world}", p.getWorld().getName())
                      .replace("{player_walked}", 
-                              formatDistance(p.getStatistic(Statistic.WALK_ONE_CM)/100l))
+                              formatDistance(p.getStatistic(Statistic.WALK_ONE_CM)/100l)) //100long
                      .replace("{player_flown}", 
-                              formatDistance(p.getStatistic(Statistic.FLY_ONE_CM)/100l))
-                     .replace("{player_color}",color);
+                              formatDistance(p.getStatistic(Statistic.FLY_ONE_CM)/100l)) //100long
+                     .replace("{player_color}",color)
+                     .replace("{player_history}", getHistory(p));
     }    
 
     private String formatTimespan(long timespan) {
@@ -228,5 +266,78 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 }
             }
         return result.trim();
+    }
+    
+    private String getHistory(Player p) {
+        if(p!=null && PlayerHistoryData.hasPlayerHistory(p)) {
+            HistoryData data = PlayerHistoryData.getPlayerHistory(p);
+            if(data!=null) {
+                String result = ChatPlugin.getConfigStringFromList("chatDecorations.playerHistory.intro", "");
+                List<String> colors = ChatPlugin.getConfigStringList("chatDecorations.playerHistory.details.colors");
+                for(int i=0; i<data.getHistory().length;i++) {
+                    String entry = data.getHistory()[i];
+                    String color = colors.get(i%colors.size());
+                    result = result + LF +color+entry.replace(" ", " "+color);
+                }
+                String finish = ChatPlugin.getConfigStringFromList("playerHistory.finish", "");
+                if(!finish.equalsIgnoreCase("")) {
+                    result = result + LF + finish;
+                }
+                return result;
+            }
+        }
+        return "";
+    }
+    
+    private boolean hasHistory(Player p) {
+        return PlayerHistoryData.hasPlayerHistory(p);
+    }
+    
+    private boolean hasBadge(Player p) {
+        if(ChatPlugin.isLuckPerms()) {
+            LuckPermsApi api = LuckPerms.getApi();
+            User user = api.getUser(p.getUniqueId());
+            if(user == null) {
+                return false;
+            }
+            SortedSet<Node> nodes = (SortedSet<Node>) user.getPermissions();
+            for(Node userNode: nodes) {
+                if(userNode.isGroupNode()) {
+                    Group group = api.getGroup(userNode.getGroupName());
+                    if(group != null) {
+                        for(Node groupNode:group.getPermissions()) {
+                            if(groupNode.isSuffix()) { 
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    class ComparableDescription implements Comparable {
+
+        @Getter
+        private final Integer key;
+        
+        @Getter
+        private final String description;
+        
+        public ComparableDescription(int key, String description) {
+            this.description = description;
+            this.key = key;
+        }
+        
+        @Override
+        public int compareTo(Object o) {
+            if(o instanceof ComparableDescription) {
+                return this.getKey().compareTo(((ComparableDescription)o).getKey());
+            } else {
+                return -1;
+            }
+        }
+        
     }
 }
