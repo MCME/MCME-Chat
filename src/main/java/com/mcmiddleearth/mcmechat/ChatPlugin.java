@@ -16,6 +16,8 @@
  */
 package com.mcmiddleearth.mcmechat;
 
+import com.mcmiddleearth.mcmechat.helper.HelperCommand;
+import com.mcmiddleearth.mcmechat.helper.HelperData;
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
@@ -66,6 +68,8 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
         getCommand("history").setExecutor(new HistoryCommand());
+        HelperData.init();
+        getCommand("helper").setExecutor(new HelperCommand());
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());
         } else {
@@ -85,6 +89,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         if(args[0].equalsIgnoreCase("reload")) {
             this.reloadConfig();
             PlayerHistoryData.loadFromFile();
+            HelperData.init();
             sender.sendMessage("Reloading config.");
             return true;
         }        

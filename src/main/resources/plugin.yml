@@ -10,6 +10,9 @@ commands:
    mcmechat:
       description: reloads config file
       usage: /mcmechat reload
+   helper:
+      description: configurable help command
+      usage: /helper <topic>
    history:
       description: manage history entries of a player
       usage: /history <playername> add|insert|remove|show
@@ -20,3 +23,6 @@ permissions:
     mcmechat.history:
         description: Allows to use /history command
         default: op
+    mcmechat.helper.info:
+        description: Allows to use /helper command
+        default: true
