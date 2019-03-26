@@ -1,4 +1,7 @@
 useLuckPerms: true
+report:
+    receiverPermission: venturechat.moderationchannel
+    discordChannel: reports
 playerTabList:
     tabColorPermission: tab.color.
     afkColor: DARK_GRAY

@@ -23,6 +23,7 @@ import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
+import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
 import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import java.util.List;
 import java.util.logging.Logger;
@@ -68,6 +69,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
         getCommand("history").setExecutor(new HistoryCommand());
+        getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {

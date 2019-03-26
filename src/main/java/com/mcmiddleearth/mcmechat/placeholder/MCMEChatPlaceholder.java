@@ -21,10 +21,10 @@ import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.logging.Logger;
 import lombok.Getter;
@@ -52,6 +52,8 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
             return "null player";
         }
         switch(identifier) {
+            case "color":
+                return getRankColor(p);
             case "name":
                 return p.getName()+(hasHistory(p)?ChatPlugin.getConfigString("historyBadge", ChatColor.DARK_GRAY+"H"):"");
             case "prefix_hover_text": 
@@ -83,6 +85,28 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 Logger.getGlobal().info("ERROR - unknown identifier: "+identifier);
                 return "";
         }
+    }
+    
+    private String getRankColor(Player p) {
+        if(p==null) {
+            return "null Player";
+        }
+        if(ChatPlugin.isLuckPerms()) {
+            LuckPermsApi api = LuckPerms.getApi();
+            User user = api.getUser(p.getUniqueId());
+            if(user == null) {
+                return "";
+            }
+            Optional<Entry<Integer, String>> maxPrefix = user.getAllNodes().stream()
+                .filter(Node::isPrefix)
+                .map(Node::getPrefix)
+                .max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1);
+            String color = maxPrefix.get().getValue().substring(0, 2);
+            
+Logger.getGlobal().info("tt"+color+"test");
+            return color;
+        }
+        return "";
     }
     
     private String getDescription(Player p, String introKey, String detailKey, String finishKey) {

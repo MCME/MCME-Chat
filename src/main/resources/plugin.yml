@@ -16,7 +16,13 @@ commands:
    history:
       description: manage history entries of a player
       usage: /history <playername> add|insert|remove|show
+   report:
+      description: file a report to the moderation team
+      usage: /report <message>
 permissions:
+    mcmechat.reporter:
+        default: op
+        descroption: Allows to use /report command
     mcmechat.reload:
         description: Allows to use reload config using /mcmechat reload
         default: op
