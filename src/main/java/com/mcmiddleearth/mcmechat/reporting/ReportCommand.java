@@ -74,7 +74,6 @@ public class ReportCommand implements TabExecutor {
           {
             TextChannel channel = discordPlugin.getDestinationTextChannelForGameChannelName(discordChannel);
             if (channel != null) {
-              DiscordUtil.sendMessage(channel, message, 0, false);
               Guild guild = DiscordSRV.getPlugin().getMainGuild();
               String moderator = ChatPlugin.getConfigString("report.discordRole", "Moderator");
               String tag = DiscordUtil.convertMentionsFromNames("@"+moderator, guild);
