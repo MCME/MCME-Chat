@@ -19,6 +19,7 @@ package com.mcmiddleearth.mcmechat.reporting;
 import com.mcmiddleearth.mcmechat.helper.*;
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependencies.jda.core.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.core.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import java.util.List;
@@ -74,6 +75,10 @@ public class ReportCommand implements TabExecutor {
             TextChannel channel = discordPlugin.getDestinationTextChannelForGameChannelName(discordChannel);
             if (channel != null) {
               DiscordUtil.sendMessage(channel, message, 0, false);
+              Guild guild = DiscordSRV.getPlugin().getMainGuild();
+              String moderator = ChatPlugin.getConfigString("report.discordRole", "Moderator");
+              String tag = DiscordUtil.convertMentionsFromNames("@"+moderator, guild);
+              DiscordUtil.sendMessage(channel, tag+" "+message, 0, false);
             } else {
               Logger.getLogger("ChatPlugin").warning("Chat Plugin: Discord channel not found.");
             }
