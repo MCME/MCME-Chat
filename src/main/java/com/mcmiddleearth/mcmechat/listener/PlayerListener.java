@@ -17,9 +17,13 @@
 package com.mcmiddleearth.mcmechat.listener;
 
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
+import java.util.logging.Logger;
+import mineverse.Aust1n46.chat.api.MineverseChatAPI;
+import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  *
@@ -34,5 +38,12 @@ public class PlayerListener implements Listener {
         } else {
             PlayerHistoryData.removeBadge(e.getPlayer());
         }
+    }
+    
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        MineverseChatPlayer mcp = MineverseChatAPI
+                                  .getMineverseChatPlayer(event.getPlayer().getUniqueId());
+        mcp.clearListening();
     }
 }
