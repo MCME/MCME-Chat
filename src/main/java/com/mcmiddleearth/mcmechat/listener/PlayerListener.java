@@ -16,10 +16,12 @@
  */
 package com.mcmiddleearth.mcmechat.listener;
 
+import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import java.util.logging.Logger;
 import mineverse.Aust1n46.chat.api.MineverseChatAPI;
 import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -37,6 +39,9 @@ public class PlayerListener implements Listener {
             PlayerHistoryData.addBadge(e.getPlayer());
         } else {
             PlayerHistoryData.removeBadge(e.getPlayer());
+        }
+        if(ChatPlugin.getInstance().getConfig().getBoolean("autoLink",false)) {
+            Bukkit.dispatchCommand(e.getPlayer(), "link");
         }
     }
     
