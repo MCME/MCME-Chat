@@ -16,8 +16,9 @@
  */
 package com.mcmiddleearth.mcmechat.listener;
 
+import com.earth2me.essentials.Essentials;
 import com.mcmiddleearth.mcmechat.ChatPlugin;
-import static com.mcmiddleearth.mcmechat.listener._invalid_AfkListener.showAttachments;
+//import static com.mcmiddleearth.mcmechat.listener._invalid_AfkListener.showAttachments;
 import com.mcmiddleearth.mcmechat.util.TabUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.Node;
 import me.lucko.luckperms.api.User;
 import net.ess3.api.events.AfkStatusChangeEvent;
+import net.ess3.api.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -126,7 +128,7 @@ public class AfkListener implements Listener{
     private static Map<UUID, PermissionAttachment> attachments = new HashMap<>();
 
     private static void setAfkAttachment(Player player) {
-        showAttachments(player);
+        //showAttachments(player);
         PermissionAttachment attachment = attachments.get(player.getUniqueId());
         if(attachment==null) {
             attachment = player.addAttachment(ChatPlugin.getInstance());
@@ -153,7 +155,7 @@ public class AfkListener implements Listener{
             }
             attachments.put(player.getUniqueId(), attachment);
             player.recalculatePermissions();
-            showAttachments(player);
+            //showAttachments(player);
         }
         /*PermissionAttachment attachment = getAfkAttachment(player);
         if(attachment!=null) {

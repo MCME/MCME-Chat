@@ -16,6 +16,7 @@
  */
 package com.mcmiddleearth.mcmechat.placeholder;
 
+import com.earth2me.essentials.Essentials;
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
@@ -34,9 +35,12 @@ import me.lucko.luckperms.api.Group;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.Node;
 import me.lucko.luckperms.api.User;
+import net.ess3.api.IUser;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 /**
  *
@@ -54,6 +58,10 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
         switch(identifier) {
             case "color":
                 return getRankColor(p);
+            case "moderator_prefix":
+                return getModerator(p);
+            case "badge_suffix":
+                return getBadgeSuffix(p);
             case "name":
                 return p.getName()+(hasHistory(p)?ChatPlugin.getConfigString("historyBadge", ChatColor.DARK_GRAY+"H"):"");
             case "prefix_hover_text": 
@@ -87,9 +95,42 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
         }
     }
     
+    private String getModerator(Player p) {
+        if(p==null) {
+            return "null Player";
+        }
+        if(p.hasPermission("luckperms.group.badge_moderator")) {
+            return "&6M";
+        }
+        return "";
+    }
+    
+    private String getBadgeSuffix(Player p) {
+        if(p==null) {
+            return "null Player";
+        }
+        if(p.hasPermission("luckperms.group.badge_minigames")
+        || p.hasPermission("luckperms.group.badge_tours")
+        || p.hasPermission("luckperms.group.badge_animations")
+        || p.hasPermission("luckperms.group.badge_worldeditfull")
+        || p.hasPermission("luckperms.group.badge_worldeditlimited")
+        || p.hasPermission("luckperms.group.badge_voxel")) {
+            return "~";
+        }
+        return "";
+    }
+    
     private String getRankColor(Player p) {
         if(p==null) {
             return "null Player";
+        }
+        Plugin essPlugin = Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+        if(essPlugin != null) {
+            Essentials ess = (Essentials) essPlugin;
+            IUser iUser = ess.getUser(p);
+            if(iUser!=null && iUser.isAfk()) {
+                return "&8";
+            }
         }
         if(ChatPlugin.isLuckPerms()) {
             LuckPermsApi api = LuckPerms.getApi();
@@ -103,7 +144,7 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 .max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1);
             String color = maxPrefix.get().getValue().substring(0, 2);
             
-Logger.getGlobal().info("tt"+color+"test");
+//Logger.getGlobal().info("tt"+color+"test");
             return color;
         }
         return "";

@@ -65,7 +65,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         messageUtil.setPluginName("MCME-Chat");
         instance = this;
         PlayerHistoryData.loadFromFile();
-        getServer().getPluginManager().registerEvents(new AfkListener(), this);
+        //getServer().getPluginManager().registerEvents(new AfkListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
         getCommand("history").setExecutor(new HistoryCommand());
