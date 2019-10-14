@@ -62,6 +62,8 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 return getModerator(p);
             case "badge_suffix":
                 return getBadgeSuffix(p);
+            case "rank":
+                return getRank(p);
             case "name":
                 return p.getName()+(hasHistory(p)?ChatPlugin.getConfigString("historyBadge", ChatColor.DARK_GRAY+"H"):"");
             case "prefix_hover_text": 
@@ -99,22 +101,53 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
         if(p==null) {
             return "null Player";
         }
-        if(p.hasPermission("luckperms.group.badge_moderator")) {
+        if(p.hasPermission("group.badge_moderator")) {
             return "&6M";
         }
         return "";
+    }
+    
+    private String getRank(Player p) {
+        if (p == null) {
+            return "null Player";
+        }
+
+        if(p.hasPermission("group.root")) {
+            return getRankColor(p)+"Eru";
+        } else if(p.hasPermission("group.buildvalar")
+                || p.hasPermission("group.enforcervalar")
+                || p.hasPermission("group.valar")
+                || p.hasPermission("group.headdeveloper")
+                || p.hasPermission("group.headguide")) {
+            return getRankColor(p)+"Head";
+        } else if(p.hasPermission("group.designer")
+                || p.hasPermission("group.assistant")) {
+            return getRankColor(p)+"Staff";
+        } else if(p.hasPermission("group.guide") 
+                || p.hasPermission("group.artist")
+                || p.hasPermission("group.foreman")
+                || p.hasPermission("group.badge_moderator")) {
+            return getRankColor(p)+"Team";
+        } else if (p.hasPermission("group.default")
+                || p.hasPermission("group.adventurer")
+                || p.hasPermission("group.commoner")) {
+            return getRankColor(p)+"Fellow";
+        } else if (p.hasPermission("group.oathbreaker")) {
+            return getRankColor(p)+"Oathbreaker";
+        }
+        return "???";
     }
     
     private String getBadgeSuffix(Player p) {
         if(p==null) {
             return "null Player";
         }
-        if(p.hasPermission("luckperms.group.badge_minigames")
-        || p.hasPermission("luckperms.group.badge_tours")
-        || p.hasPermission("luckperms.group.badge_animations")
-        || p.hasPermission("luckperms.group.badge_worldeditfull")
-        || p.hasPermission("luckperms.group.badge_worldeditlimited")
-        || p.hasPermission("luckperms.group.badge_voxel")) {
+        if(p.hasPermission("group.badge_minigames")
+        || p.hasPermission("group.badge_tours")
+        || p.hasPermission("group.badge_animations")
+        || p.hasPermission("group.badge_worldeditfull")
+        || p.hasPermission("group.badge_worldeditlimited")
+        || p.hasPermission("group.badge_voxel")) {
             return "~";
         }
         return "";
@@ -142,7 +175,21 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 .filter(Node::isPrefix)
                 .map(Node::getPrefix)
                 .max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1);
-            String color = maxPrefix.get().getValue().substring(0, 2);
+            String color;
+            if(maxPrefix.isPresent()) {
+                color = maxPrefix.get().getValue();
+                if(color.length()>1 && color.charAt(0) == '&') {
+                    if(color.length()>3 && color.charAt(2) == '&') {
+                        color = color.substring(0, 4);
+                    } else {
+                        color = color.substring(0, 2);
+                    }
+                } else {
+                    color = "";
+                }
+            } else {
+                color = "";
+            }
             
 //Logger.getGlobal().info("tt"+color+"test");
             return color;
