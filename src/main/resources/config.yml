@@ -1,4 +1,135 @@
 useLuckPerms: true
+report:
+    receiverPermission: venturechat.moderationchannel
+    discordChannel: reports
+    discordRole: Moderator
 playerTabList:
-  tabColorPermission: tab.color.
-  afkColor: DARK_GRAY
+    tabColorPermission: tab.color.
+    afkColor: DARK_GRAY
+    
+# Chat Decorations 
+# Details sections will work with LuckPerms only
+# Subsections of details must be LuckPerms user groups
+# Placeholders are {Prefix}, {Suffix}, {player_color}, {player_name}, {player_first_joined}, 
+#                  {player_time_played}, {player_walked}, {player_flown} and {player_world}
+# If placeholders {Prefix} and {Suffix} are used in details section they will refer to detail user group
+chatDecorations:
+    # This text can be accessed by Placeholder API: {mcmeChat_prefix_hover_text}
+    prefixHover:
+        # Intro of the hover text indepentent of LuckPerms groups of the player
+        intro:
+            - '&7Roles describe the main tasks of a player. Roles of {player_color}{player_name}&7:'
+        # Subsections must be LuckPerms group names. For all groups of a player the matching text will be added
+        # to hover text.
+        details:
+            root:
+                - '&f{Prefix} &fis owner of the server!'
+                - '&fDoes server technology'
+                - '&fand server administration.'
+                - '&fAlso does policies and strategy for MCME.'
+            headdeveloper:
+                - '&f{Prefix} &fis in charge of all'
+                - '&f plugin development and supports'
+                - '&fEru Iluvatar with server technology and administration.'
+            enforcervalar:
+                - '&f{Prefix} &fis in charge of all'
+                - '&f rule enforcement at MCME.'
+            headguilde:
+                - '&f{Prefix} &fis in charge of all'
+                - '&f community events at MCME.'
+            buildvalar:
+                - '&f{Prefix} &fis in charge of all'
+                - '&f building at MCME.'
+            valar:
+                - '&f{Prefix} &fadministrator'
+                - '&f with various tasks.'
+            enforcer:
+                - '&f{Prefix} &fstaff member'
+                - '&f who ensures a save and friendly'
+                - '&f environment.'
+            assistant:
+                - '&f{Prefix} &fstaff member'
+                - '&f who does various tasks not direclty'
+                - '&f related to building and enforcement.'
+            leadbuilder:
+                - '&f{Prefix} &fstaff member'
+                - '&f who helps the Head Designer to organize'
+                - '&f and document building processes.'
+            designer:
+                - '&f{Prefix} &fstaff member'
+                - '&f who plans and organizes large projects'
+                - '&f and does terraforming.'
+            foreman:
+                - '&f{Prefix}&f leads jobs everybody can join.'
+                - '&fDuring jobs easy structures like roads,'
+                - '&fsmall streams and small houses are built.'
+            artist:
+                - '&f{Prefix} &fskilled builder'
+                - '&fwho does the more complex building.'
+            guide:
+                - '&f{Prefix} &fcommunicative player'
+                - '&fwho helps new players, runs tours'
+                - '&fto shows people around and organizes'
+                - '&fcommunity events.'
+            commoner:
+                - '&f{Prefix} &fplayer who spend some'
+                - '&ftime on MCME and is known to be'
+                - '&fhelpful (e.g with jobs) and friendly.'
+            default:
+                - '&f{Prefix} &fthe first rank a new player has on MCME.'
+            oathbreaker:
+                - '&f{Prefix} &fplayer who got in conflict with the rules.'
+                - '&fNeeds to walk to a destination without help to get his former rank back.'
+        # End of the hover text indepentent of LuckPerms groups of the player
+        finish:
+            - '&eClick for details about all MCME ranks'
+    # This text can be accessed by Placeholder API:  {mcmeChat_prefix_click_text}
+    prefixClick:
+        - 'https://www.mcmiddleearth.com/wiki/ranks-and-duties/'
+    # This text can be accessed by Placeholder API: {mcmeChat_name_hover_text}
+    nameHover:
+        # Intro of the hover text indepentent of LuckPerms groups of the player
+        intro:
+            - '&7Information about {player_color}{player_name}&7:'
+            - '&7Current world: &f{player_world}'
+            - '&7First joined: &f{player_first_join}'
+            - '&7Time played: &f{player_time_played}'
+            - '&7Distance walked: &f{player_walked}'
+            - '&7Distance flown: &f{player_flown}'
+            - '&eClick to send a private message' 
+        # Subsections must be LuckPerms group names. For all groups of a player the matching text will be added
+        # to hover text:
+        # details:
+        #     <group_name>:
+        #         - 'some text'
+        # End of the hover text indepentent of LuckPerms groups of the player:
+        # finish:
+        #    - 'some text'
+    # This text can be accessed by Placeholder API:  {mcmeChat_name_click_text}:
+    nameClick:
+        - '/msg {player_name} '
+    # This text can be accessed by Placeholder API:  {mcmeChat_suffix_hover_text}
+    suffixHover:
+        # Intro of the hover text indepentent of LuckPerms groups of the player
+        intro:
+            - '&7Badges display additional permissions of a player:'
+        # Subsections must be LuckPerms group names. For all groups of a player the matching text will be added
+        # to hover text.
+        details:
+            badge_voxel:
+                - '&f{Suffix} &fallowes to use Voxel Sniper.' 
+            badge_tours:
+                - '&f{Suffix} &fallowes to run tours.'
+            badge_minigames:
+                - '&f{Suffix} &fallowes to run minigames.'
+            badge_worldeditfull:
+                - '&f{Suffix} &fallowes to use full World Edit.'
+            badge_worldeditlimited:
+                - '&f{Suffix} &fallowes to use limited World Edit.'
+        # End of the hover text indepentent of LuckPerms groups of the player:
+        finish:
+            - '&eClick for details about all MCME badges'
+    # This text can be accessed by Placeholder API:  {mcmeChat_suffix_click_text}
+    suffixClick:
+        - 'https://www.mcmiddleearth.com/wiki/badge-system/'
+                
