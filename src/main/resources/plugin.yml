@@ -2,7 +2,7 @@ name: ${project.artifactId}
 main: com.mcmiddleearth.mcmechat.ChatPlugin
 version: ${project.version}
 author: Eriol_Eandur
-softdepend: [Tab]
+softdepend: [Tab, DiscordSRV]
 depend: [Essentials, LuckPerms, PlaceholderAPI, PluginUtils]
 api-version: 1.13
 
