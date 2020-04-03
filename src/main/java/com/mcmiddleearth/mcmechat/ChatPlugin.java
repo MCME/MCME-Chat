@@ -24,14 +24,14 @@ import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
+import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.dependencies.jda.core.entities.TextChannel;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import java.util.List;
 import java.util.logging.Logger;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.lucko.luckperms.LuckPerms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,7 +64,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         this.saveDefaultConfig();
         if(getConfig().getBoolean("useLuckPerms")) {
             try {
-                LuckPerms.getApi();
+                LuckPermsUtil.getApi();
                 luckPerms = true;
             } catch(IllegalStateException e) {
                 Logger.getGlobal().info("LuckPerms not found, using permission attachments.");

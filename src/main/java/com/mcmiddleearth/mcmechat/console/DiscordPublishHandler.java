@@ -17,11 +17,10 @@
 package com.mcmiddleearth.mcmechat.console;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
-import github.scarsz.discordsrv.dependencies.jda.core.entities.TextChannel;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -31,7 +30,6 @@ import java.util.logging.MemoryHandler;
 import org.apache.logging.log4j.status.StatusData;
 import org.apache.logging.log4j.status.StatusListener;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
 //org.apache.logging.log4j.Logger;
 
 /**
