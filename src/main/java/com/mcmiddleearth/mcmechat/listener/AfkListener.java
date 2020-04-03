@@ -16,20 +16,20 @@
  */
 package com.mcmiddleearth.mcmechat.listener;
 
-import com.earth2me.essentials.Essentials;
 import com.mcmiddleearth.mcmechat.ChatPlugin;
+import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 //import static com.mcmiddleearth.mcmechat.listener._invalid_AfkListener.showAttachments;
 import com.mcmiddleearth.mcmechat.util.TabUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.DataMutateResult;
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.Node;
-import me.lucko.luckperms.api.User;
 import net.ess3.api.events.AfkStatusChangeEvent;
-import net.ess3.api.Economy;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.data.DataMutateResult;
+import net.luckperms.api.model.data.DataType;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -88,41 +88,41 @@ public class AfkListener implements Listener{
     }
     
     private static void setAfkLuckPerms(Player player) {
-        LuckPermsApi lpApi = LuckPerms.getApi();
-        Node afkNode = lpApi.buildNode(ChatPlugin.getTabColorPermission()
+        LuckPerms lpApi = LuckPermsUtil.getApi();
+        Node afkNode = PermissionNode.builder(ChatPlugin.getTabColorPermission()
                                        +TabUtil.getTabColor(ChatPlugin.getAfkColor()))
-                            .setValue(true)
+                            //.setValue(true)
                             .build();
        
-        User user = lpApi.getUser(player.getUniqueId());
+        User user = lpApi.getUserManager().getUser(player.getUniqueId());
         if(user == null) {
             return;
         }
-        DataMutateResult result = user.setPermission(afkNode);
+        DataMutateResult result = user.getData(DataType.NORMAL).add(afkNode);
         for(ChatColor color : ChatColor.values()) {
             if(!color.name().equals(ChatPlugin.getAfkColor())) {
-                Node tabColorNode = lpApi.buildNode(ChatPlugin.getTabColorPermission()
-                                       +TabUtil.getTabColor(color.name())).setValue(false).build();
-                user.setPermission(tabColorNode);
+                Node tabColorNode = PermissionNode.builder(ChatPlugin.getTabColorPermission()
+                                       +TabUtil.getTabColor(color.name())).negated(true).build();
+                user.getData(DataType.NORMAL).add(tabColorNode);
             }
         }
-        lpApi.getStorage().saveUser(user); 
-        user.refreshCachedData();
+        lpApi.getUserManager().saveUser(user); 
+        user.getCachedData().invalidate();
     }
   
     public static void removeAfkLuckPerms(Player player) {
-        LuckPermsApi lpApi = LuckPerms.getApi();
-        User user = lpApi.getUser(player.getUniqueId());
+        LuckPerms lpApi = LuckPermsUtil.getApi();
+        User user = lpApi.getUserManager().getUser(player.getUniqueId());
         if(user == null) {
             return;
         }
         for(ChatColor color : ChatColor.values()) {
-            Node tabColorNode = lpApi.buildNode(ChatPlugin.getTabColorPermission()
+            Node tabColorNode = PermissionNode.builder(ChatPlugin.getTabColorPermission()
                                    +TabUtil.getTabColor(color.name())).build();
-            user.unsetPermission(tabColorNode);
+            user.getData(DataType.NORMAL).remove(tabColorNode);
         }
-        lpApi.getStorage().saveUser(user);        
-        user.refreshCachedData();
+        lpApi.getUserManager().saveUser(user);        
+        user.getCachedData().invalidate();
     }
  
     private static Map<UUID, PermissionAttachment> attachments = new HashMap<>();
