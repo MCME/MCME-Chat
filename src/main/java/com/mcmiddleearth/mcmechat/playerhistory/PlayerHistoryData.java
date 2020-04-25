@@ -17,6 +17,7 @@
 package com.mcmiddleearth.mcmechat.playerhistory;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
+import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,9 +27,10 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.User;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.data.DataType;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.types.InheritanceNode;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -99,19 +101,19 @@ public class PlayerHistoryData {
     }
     
     public static void removeBadge(OfflinePlayer p) {
-        LuckPermsApi api = LuckPerms.getApi();
-        User user = api.getUser(p.getUniqueId());
+        LuckPerms api = LuckPermsUtil.getApi();
+        User user = api.getUserManager().getUser(p.getUniqueId());
         if(user != null) {
-            user.unsetPermission(api.getNodeFactory().newBuilder(BADGE_GROUP).build());
+            user.getData(DataType.NORMAL).remove(InheritanceNode.builder(BADGE_GROUP).build());
             //api.getUserManager().saveUser(user);
         }
     }
     
     public static void addBadge(OfflinePlayer p) {
-        LuckPermsApi api = LuckPerms.getApi();
-        User user = api.getUser(p.getUniqueId());
+        LuckPerms api = LuckPermsUtil.getApi();
+        User user = api.getUserManager().getUser(p.getUniqueId());
         if(user != null) {
-            user.setPermission(api.getNodeFactory().newBuilder(BADGE_GROUP).build());
+            user.getData(DataType.NORMAL).add(InheritanceNode.builder(BADGE_GROUP).build());
             //api.getUserManager().saveUser(user);
         }
     }

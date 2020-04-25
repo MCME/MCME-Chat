@@ -18,7 +18,6 @@ package com.mcmiddleearth.mcmechat.listener;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
-import java.util.logging.Logger;
 import mineverse.Aust1n46.chat.api.MineverseChatAPI;
 import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
 import org.bukkit.Bukkit;

@@ -20,22 +20,27 @@ import com.earth2me.essentials.Essentials;
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
+import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.logging.Logger;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderHook;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.Group;
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.Node;
-import me.lucko.luckperms.api.User;
 import net.ess3.api.IUser;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.group.Group;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.types.InheritanceNode;
+import net.luckperms.api.node.types.PrefixNode;
+import net.luckperms.api.node.types.SuffixNode;
+import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -166,18 +171,19 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
             }
         }
         if(ChatPlugin.isLuckPerms()) {
-            LuckPermsApi api = LuckPerms.getApi();
-            User user = api.getUser(p.getUniqueId());
+            LuckPerms api = LuckPermsUtil.getApi();
+            User user = api.getUserManager().getUser(p.getUniqueId());
             if(user == null) {
                 return "";
             }
-            Optional<Entry<Integer, String>> maxPrefix = user.getAllNodes().stream()
-                .filter(Node::isPrefix)
-                .map(Node::getPrefix)
-                .max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1);
+            SortedMap<Integer, String> prefixes = user.getCachedData().getMetaData(QueryOptions.nonContextual()).getPrefixes();
+            //Optional<Entry<Integer, String>> maxPrefix = user.getNodes()
+                //.filter(node -> node instanceof PrefixNode)
+                //.map(node -> new SimpleEntry<>(((PrefixNode) node).getPriority(),((PrefixNode) node).getMetaValue()))
+                //.max((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : -1);
             String color;
-            if(maxPrefix.isPresent()) {
-                color = maxPrefix.get().getValue();
+            if(!prefixes.isEmpty()) {
+                color = prefixes.get(prefixes.firstKey());
                 if(color.length()>1 && color.charAt(0) == '&') {
                     if(color.length()>3 && color.charAt(2) == '&') {
                         color = color.substring(0, 4);
@@ -205,33 +211,33 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
             return "null Player";
         }
         if(ChatPlugin.isLuckPerms()) {
-            LuckPermsApi api = LuckPerms.getApi();
-            User user = api.getUser(p.getUniqueId());
+            LuckPerms api = LuckPermsUtil.getApi();
+            User user = api.getUserManager().getUser(p.getUniqueId());
             if(user == null) {
                 return "";
             }
-            SortedSet<Node> nodes = (SortedSet<Node>) user.getPermissions();
+            SortedSet<Node> nodes = (SortedSet<Node>) user.getDistinctNodes();
             List<ComparableDescription> lines = new ArrayList<>();
             for(Node userNode: nodes) {
-                if(userNode.isGroupNode()) {
-                    Group group = api.getGroup(userNode.getGroupName());
+                if(userNode instanceof InheritanceNode) {
+                    Group group = api.getGroupManager().getGroup(((InheritanceNode)userNode).getGroupName());
                     if(group != null) {
-                        Entry<Integer,String> prefix = null;
-                        for(Node groupNode:group.getPermissions()) {
-                            if(groupNode.isPrefix() 
-                                    && (prefix == null || prefix.getKey() < groupNode.getPrefix().getKey())) { 
-                                prefix = groupNode.getPrefix();
+                        SimpleEntry<Integer,String> prefix = null;
+                        for(Node groupNode:group.getDistinctNodes()) {
+                            if(groupNode instanceof PrefixNode 
+                                    && (prefix == null || prefix.getKey() < ((PrefixNode)groupNode).getPriority())) { 
+                                prefix = new SimpleEntry(((PrefixNode)groupNode).getPriority(),((PrefixNode)groupNode).getMetaValue());
                             }
                         }
                         Entry<Integer,String> suffix = null;
-                        for(Node groupNode:group.getPermissions()) {
-                            if(groupNode.isSuffix() 
-                                    && (suffix == null || suffix.getKey() < groupNode.getSuffix().getKey())) { 
-                                suffix = groupNode.getSuffix();
+                        for(Node groupNode:group.getDistinctNodes()) {
+                            if(groupNode instanceof SuffixNode 
+                                    && (suffix == null || suffix.getKey() < ((SuffixNode)groupNode).getPriority())) { 
+                                suffix = new SimpleEntry(((SuffixNode)groupNode).getPriority(),((SuffixNode)groupNode).getMetaValue());
                             }
                         }
                         String description = ChatPlugin.getConfigStringFromList("chatDecorations."+detailKey+"."
-                                                                   +userNode.getGroupName(),"");
+                                                                   +((InheritanceNode)userNode).getGroupName(),"");
                         int sortKey = 0;
                         if(prefix != null) {
                             description = description.replace("{Prefix}", prefix.getValue().trim());
@@ -407,18 +413,18 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
     
     private boolean hasBadge(Player p) {
         if(ChatPlugin.isLuckPerms()) {
-            LuckPermsApi api = LuckPerms.getApi();
-            User user = api.getUser(p.getUniqueId());
+            LuckPerms api = LuckPermsUtil.getApi();
+            User user = api.getUserManager().getUser(p.getUniqueId());
             if(user == null) {
                 return false;
             }
-            SortedSet<Node> nodes = (SortedSet<Node>) user.getPermissions();
+            SortedSet<Node> nodes = (SortedSet<Node>) user.getDistinctNodes();
             for(Node userNode: nodes) {
-                if(userNode.isGroupNode()) {
-                    Group group = api.getGroup(userNode.getGroupName());
+                if(userNode instanceof InheritanceNode) {
+                    Group group = api.getGroupManager().getGroup(((InheritanceNode)userNode).getGroupName());
                     if(group != null) {
-                        for(Node groupNode:group.getPermissions()) {
-                            if(groupNode.isSuffix()) { 
+                        for(Node groupNode:group.getDistinctNodes()) {
+                            if(groupNode instanceof SuffixNode) { 
                                 return true;
                             }
                         }
