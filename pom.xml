@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mcmiddleearth</groupId>
     <artifactId>MCME-Chat</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <organization>
         <name>MCME</name>
     </organization>
@@ -78,12 +78,6 @@
             <type>jar</type>
         </dependency>-->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
             <version>5.0</version>
@@ -116,13 +110,6 @@
             <artifactId>discordsrv</artifactId>
             <version>1.18.4</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mineverse.aust1n46</groupId>
-            <artifactId>VentureChat</artifactId>
-            <version>2.18.2</version>
-            <systemPath>D:\SystemRepository\VentureChat-2.18.2.jar</systemPath>
-            <scope>system</scope>
         </dependency>
     </dependencies>
     <name>MCME-Chat</name>
