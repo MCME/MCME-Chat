@@ -132,4 +132,24 @@ chatDecorations:
     # This text can be accessed by Placeholder API:  {mcmeChat_suffix_click_text}
     suffixClick:
         - 'https://www.mcmiddleearth.com/wiki/badge-system/'
+        
+        
+    # This section is for custom join messages for each rank on MCME
+    join_messages:
+        group_root: "Rank - Root"
+        group_buildvalar: "Rank - Build Valar"
+        group_enforcevalar: "Rank - Enforce Valar"
+        group_valar: "Rank - Valar"
+        group_headdeveloper: "Rank - Head Developer"
+        group_headguide: "Rank - Head Guide"
+        group_designer: "Rank - Designer"
+        group_assistant: "Rank - Assistant"
+        group_guide: "Rank - Guide"
+        group_artist: "Rank - Artist"
+        group_foreman: "Rank - Foreman"
+        group_badgemoderator: "Rank - Moderator"
+        group_default: "Rank - Default"
+        group_adventurer: "Rank - Adventurer"
+        group_commoner: "Rank - Commoner"
+        group_oathbreaker: "Rank - Oathbreaker"
                 
