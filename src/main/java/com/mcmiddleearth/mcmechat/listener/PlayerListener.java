@@ -42,6 +42,61 @@ public class PlayerListener implements Listener {
         if(ChatPlugin.getInstance().getConfig().getBoolean("autoLink",false)) {
             Bukkit.dispatchCommand(e.getPlayer(), "link");
         }
+        
+        ChatPlugin chatPlugin = new ChatPlugin();
+
+        ConfigurationSection joinMsg = chatPlugin.getConfig().getConfigurationSection("join_messages");
+
+        if(e.getPlayer().hasPermission("group.root")){
+            String msg = joinMsg.getString("join_messages.group_root");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.buildvalar")){
+            String msg = joinMsg.getString("join_messages.group_buildvalar");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.enforcevalar")){
+            String msg = joinMsg.getString("join_messages.group_enforcevalar");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.valar")){
+            String msg = joinMsg.getString("join_messages.group_valar");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.headdeveloper")){
+            String msg = joinMsg.getString("join_messages.group_headdeveloper");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.headguide")){
+            String msg = joinMsg.getString("join_messages.group_headguide");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.designer")){
+            String msg = joinMsg.getString("join_messages.group_designer");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.assistant")){
+            String msg = joinMsg.getString("join_messages.group_assistant");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.guide")){
+            String msg = joinMsg.getString("join_messages.group_guide");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.artist")){
+            String msg = joinMsg.getString("join_messages.group_artist");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.foreman")){
+            String msg = joinMsg.getString("join_messages.group_foreman");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.badge_moderator")){
+            String msg = joinMsg.getString("join_messages.group_badgemoderator");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.default")){
+            String msg = joinMsg.getString("join_messages.group_default");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.adventurer")){
+            String msg = joinMsg.getString("join_messages.group_adventurer");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.commoner")){
+            String msg = joinMsg.getString("join_messages.group_commoner");
+            e.getPlayer().sendMessage(msg);
+        }else if(e.getPlayer().hasPermission("group.oathbreaker")){
+            String msg = joinMsg.getString("join_messages.group_oathbreaker");
+            e.getPlayer().sendMessage(msg);
+        }
+        
     }
     
     @EventHandler
