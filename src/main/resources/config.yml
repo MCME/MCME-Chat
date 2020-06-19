@@ -136,20 +136,36 @@ chatDecorations:
         
     # This section is for custom join messages for each rank on MCME
     join_messages:
-        group_root: "Rank - Root"
-        group_buildvalar: "Rank - Build Valar"
-        group_enforcevalar: "Rank - Enforce Valar"
-        group_valar: "Rank - Valar"
-        group_headdeveloper: "Rank - Head Developer"
-        group_headguide: "Rank - Head Guide"
-        group_designer: "Rank - Designer"
-        group_assistant: "Rank - Assistant"
-        group_guide: "Rank - Guide"
-        group_artist: "Rank - Artist"
-        group_foreman: "Rank - Foreman"
-        group_badgemoderator: "Rank - Moderator"
-        group_default: "Rank - Default"
-        group_adventurer: "Rank - Adventurer"
-        group_commoner: "Rank - Commoner"
-        group_oathbreaker: "Rank - Oathbreaker"
+      root:
+        - "Rank - Root"
+      buildvalar: 
+        - "Rank - Build Valar"
+      enforcevalar: 
+        - "Rank - Enforce Valar"
+      valar: 
+        - "Rank - Valar"
+      headdeveloper: 
+        - "Rank - Head Developer
+      headguide: 
+        - "Rank - Head Guide"
+      designer: 
+        - "Rank - Designer"
+      assistant: 
+        - "Rank - Assistant"
+      guide: 
+        - "Rank - Guide"
+      artist: 
+        -"Rank - Artist"
+      foreman: 
+        - "Rank - Foreman"
+      badgemoderator: 
+        - "Rank - Moderator"
+      default: 
+        - "Rank - Default"
+      adventurer: 
+        -"Rank - Adventurer"
+      commoner: 
+        - "Rank - Commoner"
+      oathbreaker: 
+        - "Rank - Oathbreaker"
                 
