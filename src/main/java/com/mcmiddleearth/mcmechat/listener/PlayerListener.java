@@ -25,6 +25,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.configuration.ConfigurationSection;
 
 /**
  *
@@ -46,7 +47,43 @@ public class PlayerListener implements Listener {
         ChatPlugin chatPlugin = new ChatPlugin();
 
         ConfigurationSection joinMsg = chatPlugin.getConfig().getConfigurationSection("join_messages");
-
+        if(joinMsg==null){
+            joinMsg = chatPlugin.getConfig().createSection("join_messages");
+        }
+        
+        ConfigurationSection root = joinMsg.getConfigurationSection("group_root");
+        if(root==null){ root = joinMsg.createSection("group_root"); }
+        ConfigurationSection buildvalar = joinMsg.getConfigurationSection("group_buildvalar");
+        if(buildvalar==null){ buildvalar = joinMsg.createSection("group_buildvalar"); }
+        ConfigurationSection enforcevalar = joinMsg.getConfigurationSection("group_enforcevalar");
+        if(enforcevalar==null){ enforcevalar = joinMsg.createSection("group_enforcevalar"); }
+        ConfigurationSection valar = joinMsg.getConfigurationSection("group_valar");
+        if(valar==null){ valar = joinMsg.createSection("group_valar"); }
+        ConfigurationSection headdeveloper = joinMsg.getConfigurationSection("group_headdeveloper");
+        if(headdeveloper==null){ headdeveloper = joinMsg.createSection("group_headdeveloper"); }
+        ConfigurationSection headguide = joinMsg.getConfigurationSection("group_headguide");
+        if(headguide==null){ headguide = joinMsg.createSection("group_headguide"); }
+        ConfigurationSection designer = joinMsg.getConfigurationSection("group_designer");
+        if(designer==null){ designer = joinMsg.createSection("group_designer"); }
+        ConfigurationSection assistant = joinMsg.getConfigurationSection("group_assistant");
+        if(assistant==null){ assistant = joinMsg.createSection("group_assistant"); }
+        ConfigurationSection guide = joinMsg.getConfigurationSection("group_guide");
+        if(guide==null){ guide = joinMsg.createSection("group_guide"); }
+        ConfigurationSection artist = joinMsg.getConfigurationSection("group_artist");
+        if(artist==null){ artist = joinMsg.createSection("group_artist"); }
+        ConfigurationSection foreman = joinMsg.getConfigurationSection("group_foreman");
+        if(foreman==null){ foreman = joinMsg.createSection("group_foreman"); }
+        ConfigurationSection badgemod = joinMsg.getConfigurationSection("group_badgemoderator");
+        if(badgemod==null){ badgemod = joinMsg.createSection("group_badgemoderator"); }
+        ConfigurationSection DEFAULT = joinMsg.getConfigurationSection("group_default");
+        if(DEFAULT==null){ DEFAULT = joinMsg.createSection("group_default"); }
+        ConfigurationSection adventurer = joinMsg.getConfigurationSection("group_adventurer");
+        if(adventurer==null){ adventurer = joinMsg.createSection("group_adventurer"); }
+        ConfigurationSection commoner = joinMsg.getConfigurationSection("group_commoner");
+        if(commoner==null){ commoner = joinMsg.createSection("group_commoner"); }
+        ConfigurationSection oathbreaker = joinMsg.getConfigurationSection("group_oathbreaker");
+        if(oathbreaker==null){ oathbreaker = joinMsg.createSection("group_oathbreaker"); }
+        
         if(e.getPlayer().hasPermission("group.root")){
             String msg = joinMsg.getString("join_messages.group_root");
             e.getPlayer().sendMessage(msg);
