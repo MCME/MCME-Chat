@@ -30,7 +30,6 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import java.util.List;
 import java.util.logging.Logger;
-import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,16 +44,16 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class ChatPlugin extends JavaPlugin implements CommandExecutor{
 
-    @Getter
+    
     private static JavaPlugin instance;
     
-    @Getter
+    
     private static boolean luckPerms = false;
     
-    @Getter
+    
     private static TextChannel discordConsoleChannel = null;
     
-    @Getter
+    
     private static MessageUtil messageUtil = new MessageUtil();
     
     private static DiscordPublishHandler consolePublisher;
@@ -94,6 +93,19 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
     @Override
     public void onDisable() {
         consolePublisher.remove();
+    }
+    
+    public static JavaPlugin getInstance() {
+        return instance;
+    }
+    public static boolean isLuckPerms() {
+        return luckPerms;
+    }
+    public static TextChannel getDiscordConsoleChannel() {
+        return discordConsoleChannel;
+    }
+    public static MessageUtil getMessageUtil() {
+        return messageUtil;
     }
     
     @Override
