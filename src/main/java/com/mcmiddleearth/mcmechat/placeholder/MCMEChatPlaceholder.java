@@ -437,11 +437,18 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
     
     class ComparableDescription implements Comparable {
 
-        @Getter
+       
         private final Integer key;
-        
-        @Getter
+      
         private final String description;
+        
+        public Integer getKey() {
+            return key;
+        }
+
+        public String getDescription() {
+            return description;
+        }
         
         public ComparableDescription(int key, String description) {
             this.description = description;
