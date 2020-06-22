@@ -43,8 +43,12 @@ import org.bukkit.entity.Player;
  */
 public class PlayerHistoryData {
 
-    @Getter
+    
     private static final Map<UUID,HistoryData> playerHistory = new HashMap<>();
+    
+    public static Map<UUID,HistoryData> getPlayerHistory() {
+        return playerHistory;
+    }
     
     private static final File PLAYER_HISTORY_FILE = new File(ChatPlugin.getInstance().getDataFolder(),"playerdata.yml");
     
