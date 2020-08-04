@@ -19,6 +19,7 @@ package com.mcmiddleearth.mcmechat;
 import com.mcmiddleearth.mcmechat.console.DiscordPublishHandler;
 import com.mcmiddleearth.mcmechat.helper.HelperCommand;
 import com.mcmiddleearth.mcmechat.helper.HelperData;
+import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
@@ -29,6 +30,7 @@ import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -70,15 +72,17 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         messageUtil.setPluginName("MCME-Chat");
         instance = this;
         PlayerHistoryData.loadFromFile();
-        //getServer().getPluginManager().registerEvents(new AfkListener(), this);
+        getServer().getPluginManager().registerEvents(new AfkListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
         getCommand("history").setExecutor(new HistoryCommand());
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
-        if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+            new MCMEChatPlaceholder().register();
+        /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());*/
         } else {
             Logger.getGlobal().warning("PlaceholderAPI not enabled");
         }
