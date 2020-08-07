@@ -74,7 +74,8 @@ public class NameHistoryUtil implements CommandExecutor {
                     sb1.append(sc1.next());
 
                 }
-
+                
+                //Create 2 lists for names and dates
                 String result1 = sb1.toString();
                 List<String> names = new ArrayList<>();
                 List<String> dates = new ArrayList<>();
@@ -92,6 +93,7 @@ public class NameHistoryUtil implements CommandExecutor {
                             if (result1.charAt(stringPos + count) == 58) {
                                 int end1 = stringPos + count;
                                 String name1 = result1.substring(start1, end1);
+                                //Get rid of symbols that are not needed
                                 name1 = name1.replace("\"", "");
                                 name1 = name1.replace(",", "");
                                 name1 = name1.replaceAll("changedToAt", "");
@@ -117,6 +119,7 @@ public class NameHistoryUtil implements CommandExecutor {
                             int end1 = num + 13;
                             String date = result1.substring(start1, end1);
                             long milliSec = Long.parseLong(date);
+                            //Convert milliseconds to a Date
                             DateFormat simple = new SimpleDateFormat("dd MMM yyyy");
                             Date newDate = new Date(milliSec);
                             dates.add(simple.format(newDate));
@@ -126,7 +129,7 @@ public class NameHistoryUtil implements CommandExecutor {
                     datePos++;
                 }
 
-
+                //Adds in the original name (this does not have a date)
                 int firstIndex = result1.indexOf("},");
                 int start1 = 10;
                 int end1 = firstIndex - 1;
@@ -135,11 +138,11 @@ public class NameHistoryUtil implements CommandExecutor {
                 dates.add(0, "Account Created");
 
                 int size = names.size();
-
+                //Creates Fancy message for header
                 FancyMessage header = new FancyMessage(MessageType.INFO,
                         MCMEtesting.getMessageUtil())
                         .addSimple(ChatColor.DARK_AQUA + "Player Name History ");
-
+                //Creates FancyList for names and dates
                 List<FancyMessage> fancyList = new ArrayList<>();
 
                 for (int i = 0; i < size; i++) {
@@ -147,12 +150,13 @@ public class NameHistoryUtil implements CommandExecutor {
                             .addSimple(names.get(i) + ", " + dates.get(i));
                     fancyList.add(element);
                 }
-
+                //Checks which page was entered
                 int page;
                 if(args[1]!=null){
                 if (args[1].length() > 0 && NumericUtil.isInt(args[1])) {
                     page = NumericUtil.getInt(args[1]);
-                        try {
+                    //Sends name history message to sender    
+                    try {
                             MCMEtesting.getMessageUtil().sendFancyListMessage((Player) sender, header,
                                     fancyList,
                                     "/namehistory", page);
