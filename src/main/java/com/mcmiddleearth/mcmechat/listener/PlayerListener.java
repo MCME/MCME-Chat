@@ -1,4 +1,3 @@
-/*
  * Copyright (C) 2018 MCME
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.configuration.ConfigurationSection;
 
 /**
  *
@@ -42,6 +42,20 @@ public class PlayerListener implements Listener {
         if(ChatPlugin.getInstance().getConfig().getBoolean("autoLink",false)) {
             Bukkit.dispatchCommand(e.getPlayer(), "link");
         }
+        
+        ConfigurationSection joinMsg = ChatPlugin.getInstance().getConfig().getConfigurationSection("join_messages");
+        if(joinMsg==null){
+            joinMsg = chatPlugin.getConfig().createSection("join_messages");
+        }
+
+        for(String key : joinMsg.getKeys(false)){
+            if(p.hasPermission("group." + key)){
+                for(String line : joinMsg.getStringList(key)){
+                   p.sendMessage(ChatColor.translateAlternateColorCodes('&', line));
+                }
+            }
+        }
+        
     }
     
     @EventHandler
@@ -51,3 +65,4 @@ public class PlayerListener implements Listener {
         mcp.clearListening();
     }
 }
+
