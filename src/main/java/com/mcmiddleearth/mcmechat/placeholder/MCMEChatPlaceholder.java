@@ -21,17 +21,8 @@ import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.logging.Logger;
-import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderHook;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.ess3.api.IUser;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
@@ -43,20 +34,32 @@ import net.luckperms.api.node.types.SuffixNode;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import java.text.SimpleDateFormat;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Eriol_Eandur
  */
-public class MCMEChatPlaceholder extends PlaceholderHook{
+public class MCMEChatPlaceholder extends PlaceholderExpansion {
 
     private static final String LF = "\n";
     
     @Override
-    public String onPlaceholderRequest(Player p, String identifier) {
+    public String onRequest(OfflinePlayer offlinePlayer, String identifier) {
+        if(!offlinePlayer.isOnline()) {
+            return "player not online";
+        }
+Logger.getGlobal().info("itentifier: "+identifier);
+        Player p = offlinePlayer.getPlayer();
         if(p==null) {
             return "null player";
         }
@@ -434,12 +437,25 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
         }
         return false;
     }
-    
+
+    @Override
+    public String getIdentifier() {
+        return "mcmeChat";
+    }
+
+    @Override
+    public String getAuthor() {
+        return "Eriol_Eandur";
+    }
+
+    @Override
+    public String getVersion() {
+        return "1";
+    }
+
     class ComparableDescription implements Comparable {
 
-       
         private final Integer key;
-      
         private final String description;
         
         public Integer getKey() {
@@ -463,6 +479,13 @@ public class MCMEChatPlaceholder extends PlaceholderHook{
                 return -1;
             }
         }
-        
+
+        public Integer getKey() {
+            return key;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

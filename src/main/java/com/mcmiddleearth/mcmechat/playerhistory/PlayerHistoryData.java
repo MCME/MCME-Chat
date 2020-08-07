@@ -18,15 +18,6 @@ package com.mcmiddleearth.mcmechat.playerhistory;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import lombok.Getter;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.data.DataType;
 import net.luckperms.api.model.user.User;
@@ -37,18 +28,22 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Eriol_Eandur
  */
 public class PlayerHistoryData {
 
-    
     private static final Map<UUID,HistoryData> playerHistory = new HashMap<>();
-    
-    public static Map<UUID,HistoryData> getPlayerHistory() {
-        return playerHistory;
-    }
     
     private static final File PLAYER_HISTORY_FILE = new File(ChatPlugin.getInstance().getDataFolder(),"playerdata.yml");
     
@@ -121,4 +116,5 @@ public class PlayerHistoryData {
             //api.getUserManager().saveUser(user);
         }
     }
+
 }

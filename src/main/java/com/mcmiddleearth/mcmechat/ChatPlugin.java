@@ -19,8 +19,9 @@ package com.mcmiddleearth.mcmechat;
 import com.mcmiddleearth.mcmechat.console.DiscordPublishHandler;
 import com.mcmiddleearth.mcmechat.helper.HelperCommand;
 import com.mcmiddleearth.mcmechat.helper.HelperData;
-import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
+import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
+import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
@@ -28,10 +29,8 @@ import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import java.util.List;
-import java.util.logging.Logger;
-import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,22 +38,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Eriol_Eandur
  */
 public class ChatPlugin extends JavaPlugin implements CommandExecutor{
 
-    @Getter
     private static JavaPlugin instance;
     
-    @Getter
     private static boolean luckPerms = false;
     
-    @Getter
     private static TextChannel discordConsoleChannel = null;
     
-    @Getter
     private static MessageUtil messageUtil = new MessageUtil();
     
     private static DiscordPublishHandler consolePublisher;
@@ -74,15 +72,17 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         messageUtil.setPluginName("MCME-Chat");
         instance = this;
         PlayerHistoryData.loadFromFile();
-        //getServer().getPluginManager().registerEvents(new AfkListener(), this);
+        getServer().getPluginManager().registerEvents(new AfkListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getCommand("mcmechat").setExecutor(this);
         getCommand("history").setExecutor(new HistoryCommand());
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
-        if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+            new MCMEChatPlaceholder().register();
+        /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlaceholderAPI.registerPlaceholderHook("mcmeChat", new MCMEChatPlaceholder());*/
         } else {
             Logger.getGlobal().warning("PlaceholderAPI not enabled");
         }
@@ -177,5 +177,23 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
             }
         }.runTaskTimer(this, 0, 20);
     }
-    
+
+    public static JavaPlugin getInstance() {
+        return instance;
+    }
+
+    public static boolean isLuckPerms() {
+        return luckPerms;
+    }
+
+    public static TextChannel getDiscordConsoleChannel() {
+        return discordConsoleChannel;
+    }
+
+    public static MessageUtil getMessageUtil() {
+        return messageUtil;
+    }
+
+
+
 }
