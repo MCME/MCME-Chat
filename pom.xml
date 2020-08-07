@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mcmiddleearth</groupId>
     <artifactId>MCME-Chat</artifactId>
-    <version>1.4</version>
+    <version>1.6-SNAPSHOT</version>
     <organization>
         <name>MCME</name>
     </organization>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-API</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--<dependency>
@@ -76,12 +76,6 @@
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>compile</scope>
             <type>jar</type>
-        </dependency>-->
-        <!--dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
-            <scope>provided</scope>
         </dependency>-->
         <dependency>
             <groupId>net.luckperms</groupId>
@@ -97,13 +91,13 @@
         <dependency>
          <groupId>me.clip</groupId>
           <artifactId>placeholderapi</artifactId>
-          <version>2.10.5</version>
+          <version>2.10.8</version>
          <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.mcmiddleearth</groupId>
             <artifactId>PluginUtils</artifactId>
-            <version>1.2.4</version>
+            <version>1.4.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.bukkit</groupId>
@@ -116,13 +110,6 @@
             <artifactId>discordsrv</artifactId>
             <version>1.18.4</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mineverse.aust1n46</groupId>
-            <artifactId>VentureChat</artifactId>
-            <version>2.18.2</version>
-            <systemPath>D:\SystemRepository\VentureChat-2.18.2.jar</systemPath>
-            <scope>system</scope>
         </dependency>
     </dependencies>
     <name>MCME-Chat</name>

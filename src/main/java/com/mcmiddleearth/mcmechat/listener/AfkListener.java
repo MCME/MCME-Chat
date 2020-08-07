@@ -23,6 +23,8 @@ import com.mcmiddleearth.mcmechat.util.TabUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Logger;
+
 import net.ess3.api.events.AfkStatusChangeEvent;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.data.DataMutateResult;
@@ -48,6 +50,7 @@ public class AfkListener implements Listener{
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
     public void afkStatusChange(AfkStatusChangeEvent event) {
+Logger.getGlobal().info("AFK EvENT: "+event.getValue());
         if(event.getValue()) {
             setAfk(event.getAffected().getBase());
         } else {
@@ -93,7 +96,6 @@ public class AfkListener implements Listener{
                                        +TabUtil.getTabColor(ChatPlugin.getAfkColor()))
                             //.setValue(true)
                             .build();
-       
         User user = lpApi.getUserManager().getUser(player.getUniqueId());
         if(user == null) {
             return;
@@ -108,6 +110,7 @@ public class AfkListener implements Listener{
         }
         lpApi.getUserManager().saveUser(user); 
         user.getCachedData().invalidate();
+        lpApi.runUpdateTask();
     }
   
     public static void removeAfkLuckPerms(Player player) {
@@ -123,6 +126,7 @@ public class AfkListener implements Listener{
         }
         lpApi.getUserManager().saveUser(user);        
         user.getCachedData().invalidate();
+        lpApi.runUpdateTask();
     }
  
     private static Map<UUID, PermissionAttachment> attachments = new HashMap<>();
