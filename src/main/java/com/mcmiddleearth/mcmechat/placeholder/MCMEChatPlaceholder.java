@@ -456,8 +456,15 @@ Logger.getGlobal().info("itentifier: "+identifier);
     class ComparableDescription implements Comparable {
 
         private final Integer key;
-        
         private final String description;
+        
+        public Integer getKey() {
+            return key;
+        }
+
+        public String getDescription() {
+            return description;
+        }
         
         public ComparableDescription(int key, String description) {
             this.description = description;
