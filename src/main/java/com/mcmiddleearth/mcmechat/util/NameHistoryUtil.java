@@ -44,6 +44,11 @@ public class NameHistoryUtil{
         }
 
         String result = sb.toString();
+         
+        if(result.length()<1){
+             return fancyList;
+        } 
+          
         int start = result.lastIndexOf(":") + 2;
         int end = start + 32;
         String playerUUID = result.substring(start, end);
