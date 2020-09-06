@@ -34,6 +34,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /*
 *
 *@author Gilan
@@ -47,15 +49,16 @@ public class NameHistoryUtil{
         try {
             url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ChatPlugin.getInstance().getClass().getSimpleName()).log(Level.WARNING,null, e);
         }
 
         Scanner sc = null;
         try {
             sc = new Scanner(url.openStream());
         } catch (IOException e) {
-            e.printStackTrace();
+             Logger.getLogger(ChatPlugin.getInstance().getClass().getSimpleName()).log(Level.WARNING,null, e);
         }
+        
 
         StringBuilder sb = new StringBuilder();
         while (sc.hasNext()) {
@@ -78,14 +81,14 @@ public class NameHistoryUtil{
         try {
             url1 = new URL("https://api.mojang.com/user/profiles/" + playerUUID + "/names");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+             Logger.getLogger(ChatPlugin.getInstance().getClass().getSimpleName()).log(Level.WARNING,null, e);
         }
 
         Scanner sc1 = null;
         try {
             sc1 = new Scanner(url1.openStream());
         } catch (IOException e) {
-            e.printStackTrace();
+             Logger.getLogger(ChatPlugin.getInstance().getClass().getSimpleName()).log(Level.WARNING,null, e);
         }
 
         StringBuilder sb1 = new StringBuilder();
