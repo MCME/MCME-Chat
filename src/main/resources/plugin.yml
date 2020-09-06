@@ -19,6 +19,9 @@ commands:
    report:
       description: file a report to the moderation team
       usage: /report <message>
+   namehistory:
+      description: get a player's minecraft name history
+      usage: /namehistory <playername> <page>
 permissions:
     mcmechat.reporter:
         default: op
