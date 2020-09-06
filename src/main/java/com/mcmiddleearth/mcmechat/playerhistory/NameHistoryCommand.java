@@ -29,6 +29,10 @@ public class NameHistoryCommand implements CommandExecutor {
                 }
 
                 List<FancyMessage> fancyList = NameHistoryUtil.getFancyList(name);
+                if(fancyList.size()<1){
+                    sender.sendMessage(ChatColor.DARK_RED + "That player does not exist! Make sure you have entered the name correctly or check to make sure they have not changed it.");
+                    return true;
+                }
 
                 FancyMessage header = new FancyMessage(MessageType.INFO, MCMEtesting.getMessageUtil())
                         .addSimple(ChatColor.DARK_AQUA + "Name History of Player: " + name);
