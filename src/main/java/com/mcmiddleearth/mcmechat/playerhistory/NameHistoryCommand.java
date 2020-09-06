@@ -18,7 +18,7 @@ public class NameHistoryCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args[0]!=null) {
+        if (args.length!=0) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 String name = args[0];
