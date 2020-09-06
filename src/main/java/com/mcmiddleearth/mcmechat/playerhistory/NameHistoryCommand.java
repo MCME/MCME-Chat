@@ -62,7 +62,7 @@ public class NameHistoryCommand implements CommandExecutor {
                             fancyList,
                             "/namehistory", page);
                 }catch (NullPointerException e) {
-                    e.printStackTrace();
+                    Logger.getLogger(ChatPlugin.getInstance().getClass().getSimpleName()).log(Level.WARNING,null, e);
                     sender.sendMessage(ChatColor.DARK_RED + "Please include player name and page number: /namehistory <name> <page>");
                 }
             }
