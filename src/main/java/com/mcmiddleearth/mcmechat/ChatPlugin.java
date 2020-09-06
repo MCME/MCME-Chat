@@ -79,6 +79,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
+        getCommand("namehistory").setExecutor(new NameHistoryCommand());
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
             new MCMEChatPlaceholder().register();
         /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
