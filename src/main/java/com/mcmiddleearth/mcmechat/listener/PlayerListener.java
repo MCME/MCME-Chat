@@ -1,4 +1,4 @@
- * Copyright (C) 2018 MCME
+ /* Copyright (C) 2018 MCME
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  *
  * @author Eriol_Eandur
+ * @author Gilan
  */
 public class PlayerListener implements Listener {
     
@@ -65,4 +66,3 @@ public class PlayerListener implements Listener {
         mcp.clearListening();
     }
 }
-
