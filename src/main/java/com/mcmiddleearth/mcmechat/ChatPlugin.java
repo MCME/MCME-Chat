@@ -191,23 +191,4 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
             }
         }.runTaskTimer(this, 0, 20);
     }
-
-    public static JavaPlugin getInstance() {
-        return instance;
-    }
-
-    public static boolean isLuckPerms() {
-        return luckPerms;
-    }
-
-    public static TextChannel getDiscordConsoleChannel() {
-        return discordConsoleChannel;
-    }
-
-    public static MessageUtil getMessageUtil() {
-        return messageUtil;
-    }
-
-
-
 }
