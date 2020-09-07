@@ -79,6 +79,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
+        getCommand("namehistory").setExecutor(new NameHistoryCommand());
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
             new MCMEChatPlaceholder().register();
         /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -94,6 +95,19 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
     @Override
     public void onDisable() {
         consolePublisher.remove();
+    }
+    
+    public static JavaPlugin getInstance() {
+        return instance;
+    }
+    public static boolean isLuckPerms() {
+        return luckPerms;
+    }
+    public static TextChannel getDiscordConsoleChannel() {
+        return discordConsoleChannel;
+    }
+    public static MessageUtil getMessageUtil() {
+        return messageUtil;
     }
     
     @Override
