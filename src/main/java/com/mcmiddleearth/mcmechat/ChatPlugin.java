@@ -19,6 +19,7 @@ package com.mcmiddleearth.mcmechat;
 import com.mcmiddleearth.mcmechat.console.DiscordPublishHandler;
 import com.mcmiddleearth.mcmechat.helper.HelperCommand;
 import com.mcmiddleearth.mcmechat.helper.HelperData;
+import com.mcmiddleearth.mcmechat.helper.HintManager;
 import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
@@ -56,6 +57,8 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
     private static MessageUtil messageUtil = new MessageUtil();
     
     private static DiscordPublishHandler consolePublisher;
+
+    private static HintManager hintManager;
     
     @Override
     public void onEnable() {
@@ -79,6 +82,8 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
+        hintManager = new HintManager();
+        getServer().getPluginManager().registerEvents(hintManager, this);
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
             new MCMEChatPlaceholder().register();
         /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -93,6 +98,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
     
     @Override
     public void onDisable() {
+        hintManager.disable();
         consolePublisher.remove();
     }
     
