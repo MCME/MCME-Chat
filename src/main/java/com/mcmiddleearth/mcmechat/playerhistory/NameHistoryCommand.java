@@ -16,10 +16,10 @@
  */
 package com.mcmiddleearth.mcmechat.playerhistory;
 
+import com.mcmiddleearth.mcmechat.ChatPlugin;
+import com.mcmiddleearth.mcmechat.util.NameHistoryUtil;
 import com.mcmiddleearth.pluginutil.message.FancyMessage;
 import com.mcmiddleearth.pluginutil.message.MessageType;
-import me.gilan.mcmetesting.MCMEtesting;
-import me.gilan.mcmetesting.utils.NameHistoryUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +27,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-/*
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+  /*
 *
 *@author Gilan
 *
@@ -54,11 +57,11 @@ public class NameHistoryCommand implements CommandExecutor {
                     return true;
                 }
 
-                FancyMessage header = new FancyMessage(MessageType.INFO, MCMEtesting.getMessageUtil())
+                FancyMessage header = new FancyMessage(MessageType.INFO, ChatPlugin.getMessageUtil())
                         .addSimple(ChatColor.DARK_AQUA + "Name History of Player: " + name);
 
                 try {
-                    MCMEtesting.getMessageUtil().sendFancyListMessage((Player) sender, header,
+                    ChatPlugin.getMessageUtil().sendFancyListMessage((Player) sender, header,
                             fancyList,
                             "/namehistory", page);
                 }catch (NullPointerException e) {

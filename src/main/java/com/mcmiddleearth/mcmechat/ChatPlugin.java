@@ -23,6 +23,7 @@ import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
+import com.mcmiddleearth.mcmechat.playerhistory.NameHistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;

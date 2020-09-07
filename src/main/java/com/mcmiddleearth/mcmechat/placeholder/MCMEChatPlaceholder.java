@@ -480,12 +480,5 @@ Logger.getGlobal().info("itentifier: "+identifier);
             }
         }
 
-        public Integer getKey() {
-            return key;
-        }
-
-        public String getDescription() {
-            return description;
-        }
     }
 }

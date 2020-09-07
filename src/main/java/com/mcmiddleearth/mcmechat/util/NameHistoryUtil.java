@@ -16,24 +16,19 @@
  */
 package com.mcmiddleearth.mcmechat.util;
 
-import com.mcmiddleearth.pluginutil.message.MessageType;
-import com.mcmiddleearth.pluginutil.message.MessageUtil;
-import com.mcmiddleearth.pluginutil.NumericUtil;
-import me.gilan.mcmetesting.MCMEtesting;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.pluginutil.message.FancyMessage;
-import org.bukkit.entity.Player;
+import com.mcmiddleearth.pluginutil.message.MessageType;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /*
@@ -67,8 +62,11 @@ public class NameHistoryUtil{
         }
 
         String result = sb.toString();
-         
-        if(result.length()<1){
+
+
+         List<FancyMessage> fancyList = new ArrayList<>();
+
+         if(result.length()<1){
              return fancyList;
         } 
           
@@ -165,10 +163,8 @@ public class NameHistoryUtil{
         int size = names.size();
 
 
-        List<FancyMessage> fancyList = new ArrayList<>();
-
         for (int i = 0; i < size; i++) {
-            FancyMessage element = new FancyMessage(MessageType.INFO, MCMEtesting.getMessageUtil())
+            FancyMessage element = new FancyMessage(MessageType.INFO, ChatPlugin.getMessageUtil())
                     .addSimple(names.get(i) + ", " + dates.get(i));
             fancyList.add(element);
         }
