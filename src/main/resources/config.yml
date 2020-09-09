@@ -145,7 +145,7 @@ chatDecorations:
       valar: 
         - "Rank - Valar"
       headdeveloper: 
-        - "Rank - Head Developer
+        - "Rank - Head Developer"
       headguide: 
         - "Rank - Head Guide"
       designer: 
@@ -155,7 +155,7 @@ chatDecorations:
       guide: 
         - "Rank - Guide"
       artist: 
-        -"Rank - Artist"
+        - "Rank - Artist"
       foreman: 
         - "Rank - Foreman"
       badgemoderator: 
@@ -163,7 +163,7 @@ chatDecorations:
       default: 
         - "Rank - Default"
       adventurer: 
-        -"Rank - Adventurer"
+        - "Rank - Adventurer"
       commoner: 
         - "Rank - Commoner"
       oathbreaker: 
