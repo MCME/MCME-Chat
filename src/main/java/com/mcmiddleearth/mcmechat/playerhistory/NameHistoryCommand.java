@@ -48,6 +48,11 @@ public class NameHistoryCommand implements CommandExecutor {
                     page = 1;
                 }
 
+                if (!args[0].matches("^[a-zA-Z0-9_]+$")) {
+                    sender.sendMessage(ChatColor.DARK_RED + "Please only type in characters that are allowed in a minecraft username.");
+                    return true;
+                }
+              
                 List<FancyMessage> fancyList = NameHistoryUtil.getFancyList(name);
                 if(fancyList.size()<1){
                     sender.sendMessage(ChatColor.DARK_RED + "That player does not exist! Make sure you have entered the name correctly or check to make sure they have not changed it.");
