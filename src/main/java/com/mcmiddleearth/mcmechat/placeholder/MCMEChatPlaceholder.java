@@ -58,7 +58,7 @@ public class MCMEChatPlaceholder extends PlaceholderExpansion {
         if(!offlinePlayer.isOnline()) {
             return "player not online";
         }
-Logger.getGlobal().info("itentifier: "+identifier);
+//Logger.getGlobal().info("itentifier: "+identifier);
         Player p = offlinePlayer.getPlayer();
         if(p==null) {
             return "null player";
