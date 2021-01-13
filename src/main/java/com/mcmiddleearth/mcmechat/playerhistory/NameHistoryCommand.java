@@ -48,7 +48,7 @@ public class NameHistoryCommand implements CommandExecutor {
                     page = 1;
                 }
 
-                if (!args[0].matches("^[a-zA-Z0-9_]+$")) {
+                if (!args[0].matches("^[a-zA-Z0-9]+$")) {
                     sender.sendMessage(ChatColor.DARK_RED + "Please only type in characters that are allowed in a minecraft username.");
                     return true;
                 }
