@@ -23,6 +23,7 @@ import com.mcmiddleearth.mcmechat.listener.AfkListener;
 import com.mcmiddleearth.mcmechat.listener.PlayerListener;
 import com.mcmiddleearth.mcmechat.placeholder.MCMEChatPlaceholder;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
+import com.mcmiddleearth.mcmechat.playerhistory.NameHistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
@@ -79,6 +80,7 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         getCommand("report").setExecutor(new ReportCommand());
         HelperData.init();
         getCommand("helper").setExecutor(new HelperCommand());
+        getCommand("namehistory").setExecutor(new NameHistoryCommand());
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
             new MCMEChatPlaceholder().register();
         /*if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -190,23 +192,4 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
             }
         }.runTaskTimer(this, 0, 20);
     }
-
-    public static JavaPlugin getInstance() {
-        return instance;
-    }
-
-    public static boolean isLuckPerms() {
-        return luckPerms;
-    }
-
-    public static TextChannel getDiscordConsoleChannel() {
-        return discordConsoleChannel;
-    }
-
-    public static MessageUtil getMessageUtil() {
-        return messageUtil;
-    }
-
-
-
 }

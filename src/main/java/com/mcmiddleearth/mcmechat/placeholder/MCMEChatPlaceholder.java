@@ -58,7 +58,7 @@ public class MCMEChatPlaceholder extends PlaceholderExpansion {
         if(!offlinePlayer.isOnline()) {
             return "player not online";
         }
-Logger.getGlobal().info("itentifier: "+identifier);
+//Logger.getGlobal().info("itentifier: "+identifier);
         Player p = offlinePlayer.getPlayer();
         if(p==null) {
             return "null player";
@@ -190,6 +190,8 @@ Logger.getGlobal().info("itentifier: "+identifier);
                 if(color.length()>1 && color.charAt(0) == '&') {
                     if(color.length()>3 && color.charAt(2) == '&') {
                         color = color.substring(0, 4);
+                    } else if(color.charAt(1)=='#') {
+                        color = color.substring(0,8);
                     } else {
                         color = color.substring(0, 2);
                     }
@@ -278,7 +280,11 @@ Logger.getGlobal().info("itentifier: "+identifier);
         String color = "&7";
         if(maxPrefix!=null) {
             if(maxPrefix.getValue().startsWith("&")) {
-                color = maxPrefix.getValue().substring(0,2);
+                if(maxPrefix.getValue().charAt(1)=='#') {
+                    color = maxPrefix.getValue().substring(0,8);
+                } else {
+                    color = maxPrefix.getValue().substring(0, 2);
+                }
             }
             result = result.replace("{Prefix}", maxPrefix.getValue());
         }
@@ -480,12 +486,5 @@ Logger.getGlobal().info("itentifier: "+identifier);
             }
         }
 
-        public Integer getKey() {
-            return key;
-        }
-
-        public String getDescription() {
-            return description;
-        }
     }
 }

@@ -1,4 +1,4 @@
- * Copyright (C) 2018 MCME
+ /* Copyright (C) 2018 MCME
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,18 +17,22 @@ package com.mcmiddleearth.mcmechat.listener;
 
 import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
-import mineverse.Aust1n46.chat.api.MineverseChatAPI;
-import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.configuration.ConfigurationSection;
 
+import mineverse.Aust1n46.chat.api.MineverseChatAPI;
+import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
+
 /**
  *
  * @author Eriol_Eandur
+ * @author Gilan
  */
 public class PlayerListener implements Listener {
     
@@ -45,9 +49,10 @@ public class PlayerListener implements Listener {
         
         ConfigurationSection joinMsg = ChatPlugin.getInstance().getConfig().getConfigurationSection("join_messages");
         if(joinMsg==null){
-            joinMsg = chatPlugin.getConfig().createSection("join_messages");
+            joinMsg = ChatPlugin.getInstance().getConfig().createSection("join_messages");
         }
 
+        Player p = e.getPlayer();
         for(String key : joinMsg.getKeys(false)){
             if(p.hasPermission("group." + key)){
                 for(String line : joinMsg.getStringList(key)){
@@ -65,4 +70,3 @@ public class PlayerListener implements Listener {
         mcp.clearListening();
     }
 }
-
