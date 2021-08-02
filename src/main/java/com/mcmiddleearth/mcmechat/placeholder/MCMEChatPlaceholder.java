@@ -374,7 +374,7 @@ public class MCMEChatPlaceholder extends PlaceholderExpansion {
     }
     
     private String formatDistance(long distance) {
-        if(distance < 0) {
+        if(distance < 0 || distance > Integer.MAX_VALUE-2) {
             return "too far to tell";
         }
         String result = "";
