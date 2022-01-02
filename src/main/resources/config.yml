@@ -6,11 +6,45 @@ report:
 playerTabList:
     tabColorPermission: tab.color.
     afkColor: DARK_GRAY
-    
-# Chat Decorations 
+
+helper:
+  map:
+    - '&aThe Dynmap is a useful map to find your way on the server.'
+    - '&aBuildServer Dynmap: &chttp://build.mcmiddleearth.com:8123'
+  textures:
+    - '&aThe various Rescource Packs are available at:'
+    - '&chttps://www.mcmiddleearth.com/community/resources/categories/9/'
+  forums:
+    - '&aThe forums are where discussions take place and where you'
+    - '&acan find help. Visit: &chttps://www.mcmiddleearth.com/community/forums/'
+  guide:
+    - '&aA useful guide for new players:'
+    - '&chttps://www.mcmiddleearth.com/community/forums/new-player-guide/'
+  rules:
+    - '&aOur Terms of Service and Rules can be found here:'
+    - '&chttps://www.mcmiddleearth.com/community/help/terms'
+  servers:
+    - "&aAll our IP's and domains can be found here:"
+    - '&chttps://www.mcmiddleearth.com/community/resources/9/'
+  discord:
+    - '&aJoin our discord at:'
+    - '&chttps://discord.gg/cjKv39Z'
+  commands:
+    - '&aUsful commands:'
+    - '&chttps://www.mcmiddleearth.com/community/resources/available-commands-for-adventurers.132/'
+  bug:
+    - '&aPlease report derped builds here:'
+    - '&chttps://www.mcmiddleearth.com/community/threads/official-mcme-derp-report-thread.102/'
+    - '&aPlugin bugs and suggestions go here:'
+    - '&chttps://www.mcmiddleearth.com/community/forums/suggestions-and-issues-submission-publicly.51/'
+  build:
+    - '&aWant to build? Check out how to here:'
+    - '&ahttps://www.mcmiddleearth.com/community/threads/frequently-asked-questions.4708/'
+
+# Chat Decorations
 # Details sections will work with LuckPerms only
 # Subsections of details must be LuckPerms user groups
-# Placeholders are {Prefix}, {Suffix}, {player_color}, {player_name}, {player_first_joined}, 
+# Placeholders are {Prefix}, {Suffix}, {player_color}, {player_name}, {player_first_joined},
 #                  {player_time_played}, {player_walked}, {player_flown} and {player_world}
 # If placeholders {Prefix} and {Suffix} are used in details section they will refer to detail user group
 chatDecorations:
@@ -43,18 +77,6 @@ chatDecorations:
             valar:
                 - '&f{Prefix} &fadministrator'
                 - '&f with various tasks.'
-            enforcer:
-                - '&f{Prefix} &fstaff member'
-                - '&f who ensures a save and friendly'
-                - '&f environment.'
-            assistant:
-                - '&f{Prefix} &fstaff member'
-                - '&f who does various tasks not direclty'
-                - '&f related to building and enforcement.'
-            leadbuilder:
-                - '&f{Prefix} &fstaff member'
-                - '&f who helps the Head Designer to organize'
-                - '&f and document building processes.'
             designer:
                 - '&f{Prefix} &fstaff member'
                 - '&f who plans and organizes large projects'
