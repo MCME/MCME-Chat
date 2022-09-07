@@ -227,36 +227,36 @@ public class MCMEChatPlaceholder extends PlaceholderExpansion {
                 if(userNode instanceof InheritanceNode) {
                     Group group = api.getGroupManager().getGroup(((InheritanceNode)userNode).getGroupName());
                     if(group != null) {
+                        int sortKey = group.getWeight().orElse(0);
                         SimpleEntry<Integer,String> prefix = null;
                         for(Node groupNode:group.getDistinctNodes()) {
-                            if(groupNode instanceof PrefixNode 
-                                    && (prefix == null || prefix.getKey() < ((PrefixNode)groupNode).getPriority())) { 
+                            if(groupNode instanceof PrefixNode
+                                    && (prefix == null || prefix.getKey() < ((PrefixNode)groupNode).getPriority())) {
                                 prefix = new SimpleEntry(((PrefixNode)groupNode).getPriority(),((PrefixNode)groupNode).getMetaValue());
                             }
                         }
                         Entry<Integer,String> suffix = null;
                         for(Node groupNode:group.getDistinctNodes()) {
-                            if(groupNode instanceof SuffixNode 
-                                    && (suffix == null || suffix.getKey() < ((SuffixNode)groupNode).getPriority())) { 
+                            if(groupNode instanceof SuffixNode
+                                    && (suffix == null || suffix.getKey() < ((SuffixNode)groupNode).getPriority())) {
                                 suffix = new SimpleEntry(((SuffixNode)groupNode).getPriority(),((SuffixNode)groupNode).getMetaValue());
                             }
                         }
                         String description = ChatPlugin.getConfigStringFromList("chatDecorations."+detailKey+"."
                                                                    +((InheritanceNode)userNode).getGroupName(),"");
-                        int sortKey = 0;
                         if(prefix != null) {
                             description = description.replace("{Prefix}", prefix.getValue().trim());
                             if(maxPrefix == null || maxPrefix.getKey() < prefix.getKey()) { 
                                 maxPrefix = prefix;
                             }
-                            sortKey = prefix.getKey();
+                            //sortKey = prefix.getKey();
                         }
                         if(suffix != null) {
                             description = description.replace("{Suffix}", suffix.getValue().trim());
                             if(maxSuffix == null || maxSuffix.getKey() < suffix.getKey()) { 
                                 maxSuffix = suffix;
                             }
-                            sortKey = suffix.getKey();
+                            //sortKey = suffix.getKey();
                         }
                         if(!description.equals("")) {
                             lines.add(new ComparableDescription(sortKey,description));
@@ -480,7 +480,7 @@ public class MCMEChatPlaceholder extends PlaceholderExpansion {
         @Override
         public int compareTo(Object o) {
             if(o instanceof ComparableDescription) {
-                return this.getKey().compareTo(((ComparableDescription)o).getKey());
+                return -1*this.getKey().compareTo(((ComparableDescription)o).getKey());
             } else {
                 return -1;
             }
