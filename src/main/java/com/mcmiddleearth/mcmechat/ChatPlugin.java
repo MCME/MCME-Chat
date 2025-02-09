@@ -26,11 +26,13 @@ import com.mcmiddleearth.mcmechat.playerhistory.HistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.NameHistoryCommand;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.reporting.ReportCommand;
+import com.mcmiddleearth.mcmechat.task.ArtistAdvertisementTask;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
 import com.mcmiddleearth.pluginutil.message.MessageUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.ess3.provider.providers.BukkitMaterialTagProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,6 +40,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -57,6 +60,8 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
     private static MessageUtil messageUtil = new MessageUtil();
     
     private static DiscordPublishHandler consolePublisher;
+
+    private BukkitTask artistAdvertisementTask;
     
     @Override
     public void onEnable() {
@@ -91,11 +96,17 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
         //Bukkit.getServer().getMessenger()
         //        .registerIncomingPluginChannel(this, Server.BROADCAST_CHANNEL_ADMINISTRATIVE, new ConsoleListener());
         consolePublisher = new DiscordPublishHandler();
+
+        artistAdvertisementTask = Bukkit.getScheduler().runTaskTimer(this, new ArtistAdvertisementTask(), 20*60*1, 20*60*30);
+
     }
     
     @Override
     public void onDisable() {
         consolePublisher.remove();
+        if(artistAdvertisementTask!=null) {
+            artistAdvertisementTask.cancel();
+        }
     }
     
     public static JavaPlugin getInstance() {
@@ -172,17 +183,20 @@ public class ChatPlugin extends JavaPlugin implements CommandExecutor{
             public void run() {
                 String channelName = getConfig().getString("discordConsoleChannel");
                 if(channelName!=null && !channelName.equals("")) {
-                  DiscordSRV discordPlugin = DiscordSRV.getPlugin();
-                  if (discordPlugin != null)
-                  {
-                    TextChannel channel = discordPlugin.getDestinationTextChannelForGameChannelName(channelName);
-                    if (channel != null) {
-                        discordConsoleChannel = channel;
-                        cancel();
+                    try {
+                        DiscordSRV discordPlugin = DiscordSRV.getPlugin();
+                        if (discordPlugin != null) {
+                            TextChannel channel = discordPlugin.getDestinationTextChannelForGameChannelName(channelName);
+                            if (channel != null) {
+                                discordConsoleChannel = channel;
+                                cancel();
+                            }
+                        } else {
+                            throw new NoClassDefFoundError();
+                        }
+                    } catch (NoClassDefFoundError ex) {
+                        Logger.getLogger(ChatPlugin.class.getName()).warning("DiscordSRV plugin not found. Console forwarding to Discord disabled!");
                     }
-                  } else {
-                    Logger.getLogger(ChatPlugin.class.getName()).warning("DiscordSRV plugin not found. Console forwarding to Discord disabled!");
-                  }
                 }
                 counter--;
                 if(counter == 0) {

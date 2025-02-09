@@ -6,7 +6,9 @@ report:
 playerTabList:
     tabColorPermission: tab.color.
     afkColor: DARK_GRAY
-    
+artistAdvertisementMessage:
+  - 'We are looking for builders!'
+  - 'Apply here: https://www.mcmiddleearth.com/community/forums/artist.18/'
 # Chat Decorations 
 # Details sections will work with LuckPerms only
 # Subsections of details must be LuckPerms user groups

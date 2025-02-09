@@ -21,7 +21,6 @@ import com.mcmiddleearth.mcmechat.ChatPlugin;
 import com.mcmiddleearth.mcmechat.playerhistory.HistoryData;
 import com.mcmiddleearth.mcmechat.playerhistory.PlayerHistoryData;
 import com.mcmiddleearth.mcmechat.util.LuckPermsUtil;
-import me.clip.placeholderapi.PlaceholderHook;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.ess3.api.IUser;
 import net.luckperms.api.LuckPerms;
